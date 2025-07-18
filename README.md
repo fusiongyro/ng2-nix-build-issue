@@ -50,9 +50,11 @@ This is how the project was constructed:
 2. I chose "CSS" and "No" for SSR and SSG.
 3. `cd nglearn`
 4. Now we need a `package-lock.json`, so I ran this:
-        $ nix shell nixpkgs#nodejs
-        $ npm i --package-lock-only
-        $ exit
+   ```
+   $ nix shell nixpkgs#nodejs
+   $ npm i --package-lock-only
+   $ exit
+   ```
 5. Created the flake.nix in this repository
 
 After `nix build` failed the first time, I added `npmFlags = [ "--legacy-peer-deps" ]` per the suggestion, but this seemed to have no effect.
