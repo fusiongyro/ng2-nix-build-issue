@@ -1,0 +1,49 @@
+{
+  description = "Learning Angular 2";
+
+  inputs = {
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    gitignore = {
+      url = "github:hercules-ci/gitignore.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = inputs@{ flake-parts, gitignore, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+      perSystem = { config, self', inputs', pkgs, system, ... }: {
+        packages.default = pkgs.buildNpmPackage {
+          name = "nglearn";
+
+          src = gitignore.lib.gitignoreSource ./.;
+
+          npmDeps = pkgs.importNpmLock.buildNodeModules {
+            npmRoot = ./.;
+            nodejs = pkgs.nodejs;
+          };
+
+          npmFlags = [ "--legacy-peer-deps" ];
+
+          npmConfigHook = pkgs.importNpmLock.npmConfigHook;
+
+          installPhase = ''
+              mkdir $out
+              cp -r dist/nglearn/browser/* $out
+            '';
+        };
+
+        devShells.default = pkgs.mkShell {
+          packages = [ pkgs.importNpmLock.hooks.linkNodeModulesHook ];
+
+          npmDeps = pkgs.importNpmLock.buildNodeModules {
+            npmRoot = ./.;
+            nodejs = pkgs.nodejs;
+          };
+
+          buildInputs = with pkgs; [ nodejs ];
+        };
+      };
+    };
+}
