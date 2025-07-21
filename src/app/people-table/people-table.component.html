@@ -1,0 +1,22 @@
+<table class="table is-striped is-hoverable is-bordered">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Phone</th>
+    <th>Email</th>
+    <th>Postal Code</th>
+    <th>Country</th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (row of data(); track row.name) {
+      <tr (click)="select(row)" [class.is-selected]="row === selected">
+        <td>{{ row.name }}</td>
+        <td>{{ row.phone }}</td>
+        <td>{{ row.email }}</td>
+        <td>{{ row.postalZip }}</td>
+        <td>{{ row.country }}</td>
+      </tr>
+    }
+  </tbody>
+</table>

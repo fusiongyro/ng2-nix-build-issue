@@ -1,0 +1,47 @@
+@if (person() !== undefined) {
+  <div class="card">
+    <div class="card-image">
+      <figure class="image is-4by3">
+        <img
+          src="https://bulma.io/assets/images/placeholders/1280x960.png"
+          alt="Placeholder image"
+        />
+      </figure>
+    </div>
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <img
+              src="https://bulma.io/assets/images/placeholders/96x96.png"
+              alt="Placeholder image"
+            />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-4" style="width: 10em">{{person()?.name}}</p>
+          <p class="subtitle is-6">&#64;{{ person()?.email }}</p>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="field">
+          <div class="label">Phone</div>
+          {{person()?.phone}}
+        </div>
+        <div class="field">
+          <div class="label">Postal Code</div>
+          {{person()?.postalZip}}
+        </div>
+        <div class="field">
+          <div class="label">Country</div>
+          {{person()?.country}}
+        </div>
+      </div>
+    </div>
+  </div>
+}
+@else {
+  <h1>No person selected</h1>
+}
+
