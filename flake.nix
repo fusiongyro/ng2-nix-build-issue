@@ -19,18 +19,14 @@
 
           src = gitignore.lib.gitignoreSource ./.;
 
-          npmDeps = pkgs.importNpmLock.buildNodeModules {
-            npmRoot = ./.;
-            nodejs = pkgs.nodejs;
-          };
-
-          npmFlags = [ "--legacy-peer-deps" ];
-
-          npmConfigHook = pkgs.importNpmLock.npmConfigHook;
+          npmDepsHash = "sha256-YVMHGR/BHSynHRAtCM0TsuJQwjJS4JQMCwRUWWxT5eo=";
+          npmBuildScript = "build";
 
           installPhase = ''
+              runHook preInstall
               mkdir $out
               cp -r dist/nglearn/browser/* $out
+              runHook postInstall
             '';
         };
 
